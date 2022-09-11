@@ -1,0 +1,11 @@
+email='//*[@id="EmailId"]'
+password='//*[@id="Password"]'
+appointment='//*[@id="Accordion1"]/div/div[2]/div/ul/li[1]/a'
+selone='//*[@id="LocationId"]'
+submit='//*[@class="submitbtn"]'
+categorie='//*[@id="VisaCategoryId"]'
+vole=".//input[@type='radio' and @value='OW']"
+CDG='//*[@id="selacity1"]'
+dated='//*[@id="selddate1"]'
+sed='//*[@class="simple-btn"]'
+send='//*[@class="simple-input-wrapper"]/button'
