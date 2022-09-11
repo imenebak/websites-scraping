@@ -1,0 +1,55 @@
+import time
+import xpaths
+import password
+import random
+from selenium import webdriver
+from selenium.webdriver.support.ui import Select, WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver import ActionChains
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+driver_path = "VirtualPath\\chromedriver.exe"
+
+
+options = webdriver.ChromeOptions()
+options.add_argument("start-maximized")
+options.add_experimental_option("excludeSwitches", ["enable-automation"])
+options.add_experimental_option('useAutomationExtension', False)
+
+browser = webdriver.Chrome(options=options,executable_path=driver_path)
+browser.implicitly_wait(5) # seconds
+browser.get('https://trouverunlogement.lescrous.fr/tools/residual/uri_a_recuperer_depuis_le_site')
+def test_chargement():
+     if "Logement individuel" in browser.page_source:
+         send_email_2_me("GOGOGOGOGO", "GOGOGOGOGO")
+         
+     else:
+         browser.refresh()
+         time.sleep(20)
+         print('again')
+         test_chargement()
+        
+
+
+def send_email_2_me(msg, sub):
+    print(msg, sub)
+    mail = "something@something.somethinsg"
+    gmail_code = "code you have to generate frome ur gmail account parameters - if using gmail :v"
+    msg = MIMEMultipart()
+    msg['From'] = mail
+    msg['To'] = mail
+    msg['Subject'] = str(sub)
+    message = str(msg)
+    msg.attach(MIMEText(message))
+    mailserver = smtplib.SMTP('smtp.gmail.com', 587)
+    mailserver.ehlo()
+    mailserver.starttls()
+    mailserver.ehlo()
+    mailserver.login(mail, gmail_code)
+    mailserver.sendmail(mail, mail, msg.as_string())
+    mailserver.quit()
+
+test_chargement()
