@@ -1,0 +1,62 @@
+import time
+import xpaths
+import password
+import random
+from selenium import webdriver
+from selenium.webdriver.support.ui import Select, WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver import ActionChains
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+driver_path = "VirtualPath\\chromedriver.exe"
+
+
+options = webdriver.ChromeOptions()
+options.add_argument("start-maximized")
+options.add_experimental_option("excludeSwitches", ["enable-automation"])
+options.add_experimental_option('useAutomationExtension', False)
+
+browser = webdriver.Chrome(options=options,executable_path=driver_path)
+browser.implicitly_wait(5) # seconds
+browser.get('https://airalgerie.dz/planifier-votre-voyage/reservation/reservation-en-ligne/')
+
+def test_chargement(ax,CDG, dt, snd):
+	destination = "destination"   #change it
+	date_depart ="day-month-year" #change it
+    time.sleep(random.randint(3,5))
+    element=browser.find_element_by_xpath(ax)
+    browser.execute_script("arguments[0].click();", element)
+    time.sleep(6)
+    to = browser.find_element_by_xpath(CDG)
+    time.sleep(10)
+    to.send_keys(destination)
+    time.sleep(6)
+    when = browser.find_element_by_xpath(dt)
+    time.sleep(10)
+    when.send_keys(date_depart)
+    time.sleep(10)
+    browser.find_element_by_xpath(snd).click()
+
+
+def send_email_2_me(msg, sub):
+    print(msg, sub)
+    mail = "something@something.somethinsg"                                                               #change it
+    gmail_code = "code you have to generate frome ur gmail account parameters - if using gmail :v"        #change it
+    msg = MIMEMultipart()
+    msg['From'] = mail
+    msg['To'] = mail
+    msg['Subject'] = str(sub)
+    message = str(msg)
+    msg.attach(MIMEText(message))
+    mailserver = smtplib.SMTP('smtp.gmail.com', 587)
+    mailserver.ehlo()
+    mailserver.starttls()
+    mailserver.ehlo()
+    mailserver.login(mail, gmail_code)
+    mailserver.sendmail(mail, mail, msg.as_string())
+    mailserver.quit()
+	
+test_chargement(xpaths.vole, xpaths.CDG, xpaths.dated, xpaths.send)
